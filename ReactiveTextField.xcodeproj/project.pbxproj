@@ -14,6 +14,7 @@
 		28C59A941ADEB65500062076 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28C59A931ADEB65500062076 /* Images.xcassets */; };
 		28C59A971ADEB65500062076 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28C59A951ADEB65500062076 /* LaunchScreen.xib */; };
 		28C59AA31ADEB65500062076 /* ReactiveTextFieldTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C59AA21ADEB65500062076 /* ReactiveTextFieldTests.m */; };
+		79FC6C295A5C27DE3D66A1F6 /* libPods-ReactiveTextField.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B0F2D9BE5557D855B1476C29 /* libPods-ReactiveTextField.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,9 @@
 		28C59A9C1ADEB65500062076 /* ReactiveTextFieldTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReactiveTextFieldTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		28C59AA11ADEB65500062076 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28C59AA21ADEB65500062076 /* ReactiveTextFieldTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReactiveTextFieldTests.m; sourceTree = "<group>"; };
+		8D824FAF8D93D93716DADC70 /* Pods-ReactiveTextField.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactiveTextField.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ReactiveTextField/Pods-ReactiveTextField.debug.xcconfig"; sourceTree = "<group>"; };
+		B0F2D9BE5557D855B1476C29 /* libPods-ReactiveTextField.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReactiveTextField.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD72DDAF30536E48D83F8836 /* Pods-ReactiveTextField.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactiveTextField.release.xcconfig"; path = "Pods/Target Support Files/Pods-ReactiveTextField/Pods-ReactiveTextField.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79FC6C295A5C27DE3D66A1F6 /* libPods-ReactiveTextField.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,6 +71,8 @@
 				28C59A851ADEB65500062076 /* ReactiveTextField */,
 				28C59A9F1ADEB65500062076 /* ReactiveTextFieldTests */,
 				28C59A841ADEB65500062076 /* Products */,
+				F104CCD3739645F0C4B6194C /* Pods */,
+				2D150719C68C20EEC65356EA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -119,6 +126,23 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		2D150719C68C20EEC65356EA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B0F2D9BE5557D855B1476C29 /* libPods-ReactiveTextField.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F104CCD3739645F0C4B6194C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8D824FAF8D93D93716DADC70 /* Pods-ReactiveTextField.debug.xcconfig */,
+				DD72DDAF30536E48D83F8836 /* Pods-ReactiveTextField.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -126,9 +150,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 28C59AA61ADEB65500062076 /* Build configuration list for PBXNativeTarget "ReactiveTextField" */;
 			buildPhases = (
+				DAD823D5880314949ED5F3F7 /* Check Pods Manifest.lock */,
 				28C59A7F1ADEB65500062076 /* Sources */,
 				28C59A801ADEB65500062076 /* Frameworks */,
 				28C59A811ADEB65500062076 /* Resources */,
+				B7BC4A45452A8EA0C7E1369A /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -213,6 +239,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B7BC4A45452A8EA0C7E1369A /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ReactiveTextField/Pods-ReactiveTextField-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DAD823D5880314949ED5F3F7 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		28C59A7F1ADEB65500062076 /* Sources */ = {
@@ -347,6 +406,7 @@
 		};
 		28C59AA71ADEB65500062076 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8D824FAF8D93D93716DADC70 /* Pods-ReactiveTextField.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = ReactiveTextField/Info.plist;
@@ -357,6 +417,7 @@
 		};
 		28C59AA81ADEB65500062076 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DD72DDAF30536E48D83F8836 /* Pods-ReactiveTextField.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = ReactiveTextField/Info.plist;
@@ -418,6 +479,7 @@
 				28C59AA81ADEB65500062076 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		28C59AA91ADEB65500062076 /* Build configuration list for PBXNativeTarget "ReactiveTextFieldTests" */ = {
 			isa = XCConfigurationList;
@@ -426,6 +488,7 @@
 				28C59AAB1ADEB65500062076 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
