@@ -12,6 +12,16 @@
 
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
+typedef NS_ENUM(NSInteger, TRZValidLenghtResult) {
+    TRZValidLenghtResultNone,
+    TRZValidLenghtResultShort,
+    TRZValidLenghtResultValid,
+    TRZValidLenghtResultOver,
+};
+
+static const NSInteger TRZUserNameLengthMin = 3;
+static const NSInteger TRZUserNameLengthMax = 8;
+
 @interface TableViewController () <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *userNameField;
@@ -37,15 +47,48 @@
     self.passwordConfirmField.delegate = self;
     self.emailField.delegate = self;
     
+    
+    UINib *userNameResultNib = [UINib nibWithNibName:@"TRZVaridationResultView" bundle:nil];
+    TRZValidationResultView *userNameResultView;
+    if (userNameResultNib) {
+        userNameResultView = [[userNameResultNib instantiateWithOwner:self options:nil] objectAtIndex:0];
+        self.userNameResultView = userNameResultView;
+    }
+    
     // User name validation
-    RACSignal *validUsernamelengthMin = [self.userNameField.rac_textSignal
-                                         map:^id(NSString *userName) {
-                                             return @([userName length] >= 3);
-                                         }];
-    RACSignal *validUsernameLengthMax = [self.userNameField.rac_textSignal
-                                         map:^id(NSString *userName) {
-                                             return @([userName length] <= 8);
-                                         }];
+    RACSignal *validUserNameLength = [self.userNameField.rac_textSignal
+                                      map:^id(NSString *userName) {
+                                          NSInteger length = [userName length];
+                                          if (length > 0 && length < TRZUserNameLengthMin) {
+                                              return @(TRZValidLenghtResultShort);
+                                          } else if (length >= TRZUserNameLengthMin && length <= TRZUserNameLengthMax) {
+                                              return @(TRZValidLenghtResultValid);
+                                          } else if (length > TRZUserNameLengthMax) {
+                                              return @(TRZValidLenghtResultOver);
+                                          }
+                                          return @(TRZValidLenghtResultNone);
+                                      }];
+    
+    [validUserNameLength subscribeNext:^(NSNumber *validLengthResult) {
+        NSLog(@"signal: %@", validLengthResult);
+        NSInteger result = [validLengthResult intValue];
+        switch (result) {
+            case TRZValidLenghtResultNone:
+                    self.userNameResultView.resultMessage.text = @"";
+                break;
+            case TRZValidLenghtResultShort:
+                self.userNameResultView.resultMessage.text = [NSString stringWithFormat:@"User name: at least %ld charactors", (long)TRZUserNameLengthMin];
+                break;
+            case TRZValidLenghtResultValid:
+                   self.userNameResultView.resultMessage.text = @"User name: OK!";
+                break;
+            case TRZValidLenghtResultOver:
+                    self.userNameResultView.resultMessage.text = [NSString stringWithFormat:@"User name: max %ld charactors", (long)TRZUserNameLengthMax];;
+            default:
+                break;
+        }
+    }];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -67,7 +110,7 @@
         switch (section) {
             case 0:
                 self.userNameResultView = view;
-                self.userNameResultView.resultMessage.text = @"user name message";
+                self.userNameResultView.resultMessage.text = @"";
                 break;
             case 1:
                 self.emailResultView = view;
