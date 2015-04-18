@@ -18,6 +18,11 @@
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordConfirmField;
+
+@property (strong, nonatomic) TRZValidationResultView *userNameResultView;
+@property (strong, nonatomic) TRZValidationResultView *emailResultView;
+@property (strong, nonatomic) TRZValidationResultView *passwordResultView;
+
 @property (weak, nonatomic) IBOutlet TRZBorderedButton *doneButton;
 
 @end
@@ -61,13 +66,16 @@
         view = [[nib instantiateWithOwner:self options:nil] objectAtIndex:0];
         switch (section) {
             case 0:
-                view.resultMessage.text = @"aaaaa";
+                self.userNameResultView = view;
+                self.userNameResultView.resultMessage.text = @"user name message";
                 break;
             case 1:
-                view.resultMessage.text = @"bbbbb";
+                self.emailResultView = view;
+                self.emailResultView.resultMessage.text = @"email message";
                 break;
             case 2:
-                view.resultMessage.text = @"ccccc";
+                self.passwordResultView = view;
+                self.passwordResultView.resultMessage.text = @"password message";
                 break;
             default:
                 break;
