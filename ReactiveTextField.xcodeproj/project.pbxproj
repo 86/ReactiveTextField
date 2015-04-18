@@ -14,6 +14,10 @@
 		28C59A941ADEB65500062076 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28C59A931ADEB65500062076 /* Images.xcassets */; };
 		28C59A971ADEB65500062076 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28C59A951ADEB65500062076 /* LaunchScreen.xib */; };
 		28C59AA31ADEB65500062076 /* ReactiveTextFieldTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C59AA21ADEB65500062076 /* ReactiveTextFieldTests.m */; };
+		28C59AAE1AE0052000062076 /* TRZBorderedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C59AAD1AE0052000062076 /* TRZBorderedButton.m */; };
+		28C59AB11AE0070D00062076 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C59AB01AE0070D00062076 /* TableViewController.m */; };
+		28C59AB31AE15ED100062076 /* TRZVaridationResultView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28C59AB21AE15ED000062076 /* TRZVaridationResultView.xib */; };
+		28C59AB61AE162EA00062076 /* TRZValidationResultView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C59AB51AE162EA00062076 /* TRZValidationResultView.m */; };
 		79FC6C295A5C27DE3D66A1F6 /* libPods-ReactiveTextField.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B0F2D9BE5557D855B1476C29 /* libPods-ReactiveTextField.a */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +45,13 @@
 		28C59A9C1ADEB65500062076 /* ReactiveTextFieldTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReactiveTextFieldTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		28C59AA11ADEB65500062076 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28C59AA21ADEB65500062076 /* ReactiveTextFieldTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReactiveTextFieldTests.m; sourceTree = "<group>"; };
+		28C59AAC1AE0052000062076 /* TRZBorderedButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRZBorderedButton.h; sourceTree = "<group>"; };
+		28C59AAD1AE0052000062076 /* TRZBorderedButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRZBorderedButton.m; sourceTree = "<group>"; };
+		28C59AAF1AE0070D00062076 /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
+		28C59AB01AE0070D00062076 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
+		28C59AB21AE15ED000062076 /* TRZVaridationResultView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TRZVaridationResultView.xib; sourceTree = "<group>"; };
+		28C59AB41AE162EA00062076 /* TRZValidationResultView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRZValidationResultView.h; sourceTree = "<group>"; };
+		28C59AB51AE162EA00062076 /* TRZValidationResultView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRZValidationResultView.m; sourceTree = "<group>"; };
 		8D824FAF8D93D93716DADC70 /* Pods-ReactiveTextField.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactiveTextField.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ReactiveTextField/Pods-ReactiveTextField.debug.xcconfig"; sourceTree = "<group>"; };
 		B0F2D9BE5557D855B1476C29 /* libPods-ReactiveTextField.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReactiveTextField.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD72DDAF30536E48D83F8836 /* Pods-ReactiveTextField.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactiveTextField.release.xcconfig"; path = "Pods/Target Support Files/Pods-ReactiveTextField/Pods-ReactiveTextField.release.xcconfig"; sourceTree = "<group>"; };
@@ -93,6 +104,13 @@
 				28C59A8D1ADEB65500062076 /* ViewController.h */,
 				28C59A8E1ADEB65500062076 /* ViewController.m */,
 				28C59A901ADEB65500062076 /* Main.storyboard */,
+				28C59AB21AE15ED000062076 /* TRZVaridationResultView.xib */,
+				28C59AB41AE162EA00062076 /* TRZValidationResultView.h */,
+				28C59AB51AE162EA00062076 /* TRZValidationResultView.m */,
+				28C59AAF1AE0070D00062076 /* TableViewController.h */,
+				28C59AB01AE0070D00062076 /* TableViewController.m */,
+				28C59AAC1AE0052000062076 /* TRZBorderedButton.h */,
+				28C59AAD1AE0052000062076 /* TRZBorderedButton.m */,
 				28C59A931ADEB65500062076 /* Images.xcassets */,
 				28C59A951ADEB65500062076 /* LaunchScreen.xib */,
 				28C59A861ADEB65500062076 /* Supporting Files */,
@@ -228,6 +246,7 @@
 				28C59A921ADEB65500062076 /* Main.storyboard in Resources */,
 				28C59A971ADEB65500062076 /* LaunchScreen.xib in Resources */,
 				28C59A941ADEB65500062076 /* Images.xcassets in Resources */,
+				28C59AB31AE15ED100062076 /* TRZVaridationResultView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,8 +298,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				28C59A8F1ADEB65500062076 /* ViewController.m in Sources */,
+				28C59AAE1AE0052000062076 /* TRZBorderedButton.m in Sources */,
 				28C59A8C1ADEB65500062076 /* AppDelegate.m in Sources */,
+				28C59AB11AE0070D00062076 /* TableViewController.m in Sources */,
 				28C59A891ADEB65500062076 /* main.m in Sources */,
+				28C59AB61AE162EA00062076 /* TRZValidationResultView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
