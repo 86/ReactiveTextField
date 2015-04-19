@@ -71,13 +71,15 @@ static const NSInteger TRZUserNameLengthMax = 8;
         NSInteger result = [validLengthResult intValue];
         switch (result) {
             case TRZValidLenghtResultNone: {
-                [UIView animateWithDuration:0.3 animations:^{ self.userNameResultView.alpha = 0.0; }];
-                self.userNameResultView.resultMessage.text = @"";
-                self.userNameResultView.resultIcon.image = nil;
+                [UIView animateWithDuration:0.3 animations:^{
+                    self.userNameResultView.alpha = 0.0;
+                    self.userNameResultView.resultMessage.text = @"";
+                    self.userNameResultView.resultIcon.image = nil;
+                }];
                 break;
             }
             case TRZValidLenghtResultShort: {
-                [UIView animateWithDuration:0.3 animations:^{self.userNameResultView.alpha = 0.0;} completion:^(BOOL finished){
+                [UIView animateWithDuration:0.1 animations:^{self.userNameResultView.alpha = 0.0;} completion:^(BOOL finished){
                     self.userNameResultView.resultMessage.text = [NSString stringWithFormat:@"at least %ld charactors.", (long)TRZUserNameLengthMin];
                     self.userNameResultView.resultIcon.image = [UIImage imageNamed:@"ResultWarning"];
                     [UIView animateWithDuration:0.3 animations:^{self.userNameResultView.alpha = 1.0;}];
@@ -85,15 +87,19 @@ static const NSInteger TRZUserNameLengthMax = 8;
                 break;
             }
             case TRZValidLenghtResultValid: {
-                self.userNameResultView.resultMessage.text = @"OK!";
-                self.userNameResultView.resultIcon.image = [UIImage imageNamed:@"ResultOK"];
-                [UIView animateWithDuration:0.3 animations:^{ self.userNameResultView.alpha = 1.0; }];
+                [UIView animateWithDuration:0.1 animations:^{self.userNameResultView.alpha = 0.0;} completion:^(BOOL finished){
+                    self.userNameResultView.resultMessage.text = @"OK!";
+                    self.userNameResultView.resultIcon.image = [UIImage imageNamed:@"ResultOK"];
+                    [UIView animateWithDuration:0.3 animations:^{self.userNameResultView.alpha = 1.0;}];
+                }];
                 break;
             }
             case TRZValidLenghtResultOver: {
-                self.userNameResultView.resultMessage.text = [NSString stringWithFormat:@" max %ld charactors.", (long)TRZUserNameLengthMax];;
-                self.userNameResultView.resultIcon.image = [UIImage imageNamed:@"ResultWarning"];
-                [UIView animateWithDuration:0.3 animations:^{ self.userNameResultView.alpha = 1.0; }];
+                [UIView animateWithDuration:0.1 animations:^{ self.userNameResultView.alpha = 0.0;} completion:^(BOOL finished){
+                    self.userNameResultView.resultMessage.text = [NSString stringWithFormat:@"max %ld charactors.", (long)TRZUserNameLengthMax];;
+                    self.userNameResultView.resultIcon.image = [UIImage imageNamed:@"ResultWarning"];
+                    [UIView animateWithDuration:0.3 animations:^{self.userNameResultView.alpha = 1.0;}];
+                }];
                 break;
             }
             default: {
@@ -131,7 +137,5 @@ static const NSInteger TRZUserNameLengthMax = 8;
     }
     return view;
 }
-
-
 
 @end
