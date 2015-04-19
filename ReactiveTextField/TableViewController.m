@@ -46,14 +46,11 @@ static const NSInteger TRZUserNameLengthMax = 8;
     self.passwordField.delegate = self;
     self.passwordConfirmField.delegate = self;
     self.emailField.delegate = self;
-    
-    
-    UINib *userNameResultNib = [UINib nibWithNibName:@"TRZVaridationResultView" bundle:nil];
-    TRZValidationResultView *userNameResultView;
-    if (userNameResultNib) {
-        userNameResultView = [[userNameResultNib instantiateWithOwner:self options:nil] objectAtIndex:0];
-        self.userNameResultView = userNameResultView;
-    }
+   
+    // generate validation resulet views
+    self.userNameResultView = [[TRZValidationResultView alloc] init];
+    self.emailResultView = [[TRZValidationResultView alloc] init];
+    self.passwordResultView = [[TRZValidationResultView alloc] init];
     
     // User name validation
     RACSignal *validUserNameLength = [self.userNameField.rac_textSignal
@@ -73,19 +70,35 @@ static const NSInteger TRZUserNameLengthMax = 8;
         NSLog(@"signal: %@", validLengthResult);
         NSInteger result = [validLengthResult intValue];
         switch (result) {
-            case TRZValidLenghtResultNone:
-                    self.userNameResultView.resultMessage.text = @"";
+            case TRZValidLenghtResultNone: {
+                [UIView animateWithDuration:0.3 animations:^{ self.userNameResultView.alpha = 0.0; }];
+                self.userNameResultView.resultMessage.text = @"";
+                self.userNameResultView.resultIcon.image = nil;
                 break;
-            case TRZValidLenghtResultShort:
-                self.userNameResultView.resultMessage.text = [NSString stringWithFormat:@"User name: at least %ld charactors", (long)TRZUserNameLengthMin];
+            }
+            case TRZValidLenghtResultShort: {
+                [UIView animateWithDuration:0.3 animations:^{self.userNameResultView.alpha = 0.0;} completion:^(BOOL finished){
+                    self.userNameResultView.resultMessage.text = [NSString stringWithFormat:@"at least %ld charactors.", (long)TRZUserNameLengthMin];
+                    self.userNameResultView.resultIcon.image = [UIImage imageNamed:@"ResultWarning"];
+                    [UIView animateWithDuration:0.3 animations:^{self.userNameResultView.alpha = 1.0;}];
+                }];
                 break;
-            case TRZValidLenghtResultValid:
-                   self.userNameResultView.resultMessage.text = @"User name: OK!";
+            }
+            case TRZValidLenghtResultValid: {
+                self.userNameResultView.resultMessage.text = @"OK!";
+                self.userNameResultView.resultIcon.image = [UIImage imageNamed:@"ResultOK"];
+                [UIView animateWithDuration:0.3 animations:^{ self.userNameResultView.alpha = 1.0; }];
                 break;
-            case TRZValidLenghtResultOver:
-                    self.userNameResultView.resultMessage.text = [NSString stringWithFormat:@"User name: max %ld charactors", (long)TRZUserNameLengthMax];;
-            default:
+            }
+            case TRZValidLenghtResultOver: {
+                self.userNameResultView.resultMessage.text = [NSString stringWithFormat:@" max %ld charactors.", (long)TRZUserNameLengthMax];;
+                self.userNameResultView.resultIcon.image = [UIImage imageNamed:@"ResultWarning"];
+                [UIView animateWithDuration:0.3 animations:^{ self.userNameResultView.alpha = 1.0; }];
                 break;
+            }
+            default: {
+                break;
+            }
         }
     }];
     
@@ -102,27 +115,19 @@ static const NSInteger TRZUserNameLengthMax = 8;
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    
-    UINib *nib = [UINib nibWithNibName:@"TRZVaridationResultView" bundle:nil];
-    TRZValidationResultView *view;
-    if (nib) {
-        view = [[nib instantiateWithOwner:self options:nil] objectAtIndex:0];
-        switch (section) {
-            case 0:
-                self.userNameResultView = view;
-                self.userNameResultView.resultMessage.text = @"";
-                break;
-            case 1:
-                self.emailResultView = view;
-                self.emailResultView.resultMessage.text = @"email message";
-                break;
-            case 2:
-                self.passwordResultView = view;
-                self.passwordResultView.resultMessage.text = @"password message";
-                break;
-            default:
-                break;
-        }
+    UIView *view;
+    switch (section) {
+        case 0:
+            view = self.userNameResultView;
+            break;
+        case 1:
+            view = self.emailResultView;
+            break;
+        case 2:
+            view = self.passwordResultView;
+            break;
+        default:
+            break;
     }
     return view;
 }
