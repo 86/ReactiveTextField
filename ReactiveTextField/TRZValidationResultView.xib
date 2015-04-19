@@ -24,7 +24,7 @@
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FgT-y6-PNb">
-                    <rect key="frame" x="40" y="4" width="459" height="20"/>
+                    <rect key="frame" x="40" y="5" width="459" height="20"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" red="0.33051347732543945" green="0.33050358295440674" blue="0.33050915598869324" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -33,7 +33,7 @@
             <constraints>
                 <constraint firstItem="FgT-y6-PNb" firstAttribute="height" secondItem="HEX-hL-cNH" secondAttribute="height" id="BZh-Pk-xYL"/>
                 <constraint firstItem="HEX-hL-cNH" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="K1H-JA-59c"/>
-                <constraint firstItem="FgT-y6-PNb" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="4" id="RSj-KK-Dag"/>
+                <constraint firstItem="FgT-y6-PNb" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="RSj-KK-Dag"/>
                 <constraint firstAttribute="bottom" secondItem="HEX-hL-cNH" secondAttribute="bottom" constant="13" id="apT-pE-q1f"/>
                 <constraint firstItem="HEX-hL-cNH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="kcC-ko-Gss"/>
                 <constraint firstAttribute="trailing" secondItem="FgT-y6-PNb" secondAttribute="trailing" constant="10" id="m8f-o0-qRK"/>
