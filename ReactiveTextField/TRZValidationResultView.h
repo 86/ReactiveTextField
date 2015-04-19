@@ -10,6 +10,7 @@
 
 @interface TRZValidationResultView : UIView
 
+@property (strong, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UIImageView *resultIcon;
 @property (weak, nonatomic) IBOutlet UILabel *resultMessage;
 
