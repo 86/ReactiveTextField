@@ -17,8 +17,15 @@ typedef NS_ENUM(NSInteger, TRZValidLenghtResult) {
     TRZValidLenghtResultOver,
 };
 
+typedef NS_ENUM(NSInteger, TRZValidFormatResult) {
+    TRZValidFormatResultNone,
+    TRZValidFormatResultInvalid,
+    TRZValidFormatResultValid,
+};
+
 static const NSInteger TRZUserNameLengthMin = 3;
 static const NSInteger TRZUserNameLengthMax = 8;
+static const NSString *TRZEmailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
 
 @interface TableViewController () <UITextFieldDelegate>
 
@@ -106,6 +113,51 @@ static const NSInteger TRZUserNameLengthMax = 8;
         }
     }];
     
+    // Email Validation
+    RACSignal *validEmailFormat = [self.emailField.rac_textSignal
+                                   map:^id(NSString *email) {
+                                       NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", TRZEmailRegex];
+                                       if (email.length > 0) {
+                                           if ([emailTest evaluateWithObject:email]) {
+                                                return @(TRZValidFormatResultValid);
+                                           }
+                                           return @(TRZValidFormatResultInvalid);
+                                       }
+                                       return @(TRZValidFormatResultNone);
+                                   }];
+    
+    [[validEmailFormat distinctUntilChanged] subscribeNext:^(NSNumber *validFormatResult) {
+        NSLog(@"signal: %@", validFormatResult);
+        NSInteger result = [validFormatResult intValue];
+        switch (result) {
+            case TRZValidFormatResultNone: {
+                [UIView animateWithDuration:0.3 animations:^{
+                    self.emailResultView.alpha = 0.0;
+                    self.emailResultView.resultMessage.text = @"";
+                    self.emailResultView.resultIcon.image = nil;
+                }];
+                break;
+            }
+            case TRZValidFormatResultInvalid: {
+                [UIView animateWithDuration:0.1 animations:^{self.emailResultView.alpha = 0.0;} completion:^(BOOL finished){
+                    self.emailResultView.resultMessage.text = @"input valid email address.";
+                    self.emailResultView.resultIcon.image = [UIImage imageNamed:@"ResultWarning"];
+                    [UIView animateWithDuration:0.3 animations:^{self.emailResultView.alpha = 1.0;}];
+                }];
+                break;
+            }
+            case TRZValidFormatResultValid: {
+                [UIView animateWithDuration:0.1 animations:^{self.emailResultView.alpha = 0.0;} completion:^(BOOL finished){
+                    self.emailResultView.resultMessage.text = @"OK!";
+                    self.emailResultView.resultIcon.image = [UIImage imageNamed:@"ResultOK"];
+                    [UIView animateWithDuration:0.3 animations:^{self.emailResultView.alpha = 1.0;}];
+                }];
+                break;
+            }
+            default:
+                break;
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
