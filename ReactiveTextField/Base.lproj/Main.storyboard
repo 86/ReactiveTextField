@@ -107,7 +107,7 @@
             </objects>
             <point key="canvasLocation" x="1070" y="1073"/>
         </scene>
-        <!--Root View Controller-->
+        <!--Reactive Text Field-->
         <scene sceneID="QQB-Kb-DNE">
             <objects>
                 <tableViewController id="uIi-rV-6jg" customClass="TableViewController" sceneMemberID="viewController">
@@ -226,7 +226,7 @@
                             <outlet property="delegate" destination="uIi-rV-6jg" id="7W3-if-QWH"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="Me2-Dk-sPG"/>
+                    <navigationItem key="navigationItem" title="Reactive Text Field" id="Me2-Dk-sPG"/>
                     <connections>
                         <outlet property="doneButton" destination="ahu-UF-RuO" id="zKL-0w-FGY"/>
                         <outlet property="emailField" destination="Rcm-xI-8RH" id="b9p-Ev-xts"/>
