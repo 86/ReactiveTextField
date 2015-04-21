@@ -10,8 +10,6 @@
 #import "TRZBorderedButton.h"
 #import "TRZValidationResultView.h"
 
-#import <ReactiveCocoa/ReactiveCocoa.h>
-
 typedef NS_ENUM(NSInteger, TRZValidLenghtResult) {
     TRZValidLenghtResultNone,
     TRZValidLenghtResultShort,
@@ -66,7 +64,7 @@ static const NSInteger TRZUserNameLengthMax = 8;
                                           return @(TRZValidLenghtResultNone);
                                       }];
     
-    [validUserNameLength subscribeNext:^(NSNumber *validLengthResult) {
+    [[validUserNameLength distinctUntilChanged] subscribeNext:^(NSNumber *validLengthResult) {
         NSLog(@"signal: %@", validLengthResult);
         NSInteger result = [validLengthResult intValue];
         switch (result) {
