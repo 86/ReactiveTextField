@@ -54,12 +54,20 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Tap to enter..." minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Kmz-lp-3S0">
-                                                    <rect key="frame" x="15" y="7" width="290" height="30"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Tap to enter..." minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Kmz-lp-3S0">
+                                                    <rect key="frame" x="15" y="7" width="570" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="QeQ-aS-wdq"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Kmz-lp-3S0" firstAttribute="leading" secondItem="Clv-l5-bM6" secondAttribute="leading" constant="15" id="81t-MW-Fhn"/>
+                                                <constraint firstAttribute="trailing" secondItem="Kmz-lp-3S0" secondAttribute="trailing" constant="15" id="RYw-0J-7Yb"/>
+                                                <constraint firstItem="Kmz-lp-3S0" firstAttribute="top" secondItem="Clv-l5-bM6" secondAttribute="top" constant="7" id="XOi-ho-Fn2"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -73,12 +81,20 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Tap to enter..." minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Rcm-xI-8RH">
-                                                    <rect key="frame" x="15" y="7" width="290" height="30"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Tap to enter..." minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Rcm-xI-8RH">
+                                                    <rect key="frame" x="15" y="7" width="570" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="0B7-R7-pgA"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Rcm-xI-8RH" firstAttribute="top" secondItem="jFg-aS-QTp" secondAttribute="top" constant="7" id="SPw-Uy-QQW"/>
+                                                <constraint firstItem="Rcm-xI-8RH" firstAttribute="leading" secondItem="jFg-aS-QTp" secondAttribute="leading" constant="15" id="bOS-ju-REw"/>
+                                                <constraint firstAttribute="trailing" secondItem="Rcm-xI-8RH" secondAttribute="trailing" constant="15" id="dHO-0W-DLX"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -92,12 +108,20 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Tap to enter..." minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZU4-XN-pbf">
-                                                    <rect key="frame" x="15" y="2" width="290" height="30"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Tap to enter..." minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZU4-XN-pbf">
+                                                    <rect key="frame" x="15" y="2" width="570" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="QV9-3F-mI3"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="ZU4-XN-pbf" firstAttribute="leading" secondItem="VM7-jX-pqW" secondAttribute="leading" constant="15" id="1rN-mx-WRK"/>
+                                                <constraint firstItem="ZU4-XN-pbf" firstAttribute="top" secondItem="VM7-jX-pqW" secondAttribute="top" constant="2" id="NIh-KJ-t4S"/>
+                                                <constraint firstAttribute="trailing" secondItem="ZU4-XN-pbf" secondAttribute="trailing" constant="15" id="hRQ-cu-ALO"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="34" id="OSB-RL-xvg">
@@ -107,12 +131,20 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Tap to enter... (Confirm)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Kmb-R1-eNY">
-                                                    <rect key="frame" x="15" y="2" width="290" height="30"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Tap to enter... (Confirm)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Kmb-R1-eNY">
+                                                    <rect key="frame" x="15" y="2" width="570" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="cWE-8K-eJf"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="Kmb-R1-eNY" secondAttribute="trailing" constant="15" id="0YL-vo-vst"/>
+                                                <constraint firstItem="Kmb-R1-eNY" firstAttribute="leading" secondItem="tLR-lL-d7p" secondAttribute="leading" constant="15" id="2gx-Yc-nQF"/>
+                                                <constraint firstItem="Kmb-R1-eNY" firstAttribute="top" secondItem="tLR-lL-d7p" secondAttribute="top" constant="2" id="XeH-H0-eUx"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
