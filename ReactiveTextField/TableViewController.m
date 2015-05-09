@@ -194,7 +194,7 @@ typedef NS_ENUM(NSInteger, TRZValidPasswordResult) {
     RACSignal *validPasswordsEqual = [RACSignal
                                       combineLatest:@[validPassword, self.passwordConfirmField.rac_textSignal]
                                       reduce:^(NSString *password, NSString *passwordConfirm) {
-                                          NSLog(@"password signal: %@, vpasswordConfirm signal: %@", password, passwordConfirm);
+                                          NSLog(@"password signal: %@, passwordConfirm signal: %@", password, passwordConfirm);
                                           return [password isEqualToString:passwordConfirm] ? @(TRZValidPasswordResultValid) : @(TRZValidPasswordResultNotSame);
                                       }];
     
