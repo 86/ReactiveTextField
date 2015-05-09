@@ -62,7 +62,7 @@ typedef NS_ENUM(NSInteger, TRZValidPasswordResult) {
     self.passwordConfirmField.delegate = self;
     self.emailField.delegate = self;
    
-    // generate validation resulet views
+    // generate validation result views
     self.userNameResultView = [[TRZValidationResultView alloc] init];
     self.emailResultView = [[TRZValidationResultView alloc] init];
     self.passwordResultView = [[TRZValidationResultView alloc] init];
