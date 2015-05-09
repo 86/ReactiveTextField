@@ -173,7 +173,7 @@ typedef NS_ENUM(NSInteger, TRZValidPasswordResult) {
     RACSignal *validPasswordLength = [[self.passwordField.rac_textSignal
                                       filter:^BOOL(NSString *password) {
                                           NSInteger length = [password length];
-                                          return length < TRZPasswordLengthMin || length > TRZUserNameLengthMax;
+                                          return length < TRZPasswordLengthMin || length > TRZPasswordLengthMax;
                                       }]
                                       map:^id(NSString *password) {
                                           NSInteger length = [password length];
@@ -188,7 +188,7 @@ typedef NS_ENUM(NSInteger, TRZValidPasswordResult) {
     RACSignal *validPassword = [self.passwordField.rac_textSignal
                                       filter:^BOOL(NSString *password) {
                                           NSInteger length = [password length];
-                                          return length >= TRZPasswordLengthMin && length <= TRZUserNameLengthMax;
+                                          return length >= TRZPasswordLengthMin && length <= TRZPasswordLengthMax;
                                       }];
     
     RACSignal *validPasswordsEqual = [RACSignal
