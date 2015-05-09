@@ -23,8 +23,16 @@ typedef NS_ENUM(NSInteger, TRZValidFormatResult) {
     TRZValidFormatResultValid,
 };
 
+typedef NS_ENUM(NSInteger, TRZValidConfirmResult) {
+    TRZValidConfirmResultNone,
+    TRZValidConfirmResultInvalid,
+    TRZValidConfirmResultValid,
+};
+
 static const NSInteger TRZUserNameLengthMin = 3;
 static const NSInteger TRZUserNameLengthMax = 8;
+static const NSInteger TRZPasswordLengthMin = 6;
+static const NSInteger TRZPasswordLengthMax = 10;
 static const NSString *TRZEmailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
 
 @interface TableViewController () <UITextFieldDelegate>
@@ -72,7 +80,7 @@ static const NSString *TRZEmailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Z
                                       }];
     
     [[validUserNameLength distinctUntilChanged] subscribeNext:^(NSNumber *validLengthResult) {
-        NSLog(@"signal: %@", validLengthResult);
+        NSLog(@"validUserNameLength signal: %@", validLengthResult);
         NSInteger result = [validLengthResult intValue];
         switch (result) {
             case TRZValidLenghtResultNone: {
@@ -127,7 +135,7 @@ static const NSString *TRZEmailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Z
                                    }];
     
     [[validEmailFormat distinctUntilChanged] subscribeNext:^(NSNumber *validFormatResult) {
-        NSLog(@"signal: %@", validFormatResult);
+        NSLog(@"validEmailFormat signal: %@", validFormatResult);
         NSInteger result = [validFormatResult intValue];
         switch (result) {
             case TRZValidFormatResultNone: {
@@ -151,6 +159,112 @@ static const NSString *TRZEmailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Z
                     self.emailResultView.resultMessage.text = @"OK!";
                     self.emailResultView.resultIcon.image = [UIImage imageNamed:@"ResultOK"];
                     [UIView animateWithDuration:0.3 animations:^{self.emailResultView.alpha = 1.0;}];
+                }];
+                break;
+            }
+            default:
+                break;
+        }
+    }];
+    
+    // Password Validation
+    RACSignal *validPasswordLength = [self.passwordField.rac_textSignal
+                                      map:^id(NSString *password) {
+                                          NSInteger length = [password length];
+                                          if (length > 0 && length < TRZPasswordLengthMin) {
+                                              return @(TRZValidLenghtResultShort);
+                                          } else if (length >= TRZPasswordLengthMin && length <= TRZPasswordLengthMax) {
+                                              return @(TRZValidLenghtResultValid);
+                                          } else if (length > TRZPasswordLengthMax) {
+                                              return @(TRZValidLenghtResultOver);
+                                          }
+                                          return @(TRZValidLenghtResultNone);
+                                      }];
+    
+    
+    [[validPasswordLength distinctUntilChanged] subscribeNext:^(NSNumber *validLengthResult) {
+        NSLog(@"validPasswordLength signal: %@", validLengthResult);
+        NSInteger result = [validLengthResult intValue];
+        switch (result) {
+            case TRZValidLenghtResultNone: {
+                [UIView animateWithDuration:0.3 animations:^{
+                    self.passwordResultView.alpha = 0.0;
+                    self.passwordResultView.resultMessage.text = @"";
+                    self.passwordResultView.resultIcon.image = nil;
+                }];
+                break;
+            }
+            case TRZValidLenghtResultShort: {
+                [UIView animateWithDuration:0.1 animations:^{self.passwordResultView.alpha = 0.0;} completion:^(BOOL finished){
+                    self.passwordResultView.resultMessage.text = [NSString stringWithFormat:@"at least %ld charactors.", (long)TRZPasswordLengthMin];
+                    self.passwordResultView.resultIcon.image = [UIImage imageNamed:@"ResultWarning"];
+                    [UIView animateWithDuration:0.3 animations:^{self.passwordResultView.alpha = 1.0;}];
+                }];
+                break;
+            }
+            case TRZValidLenghtResultValid: {
+                [UIView animateWithDuration:0.1 animations:^{self.passwordResultView.alpha = 0.0;} completion:^(BOOL finished){
+                    self.passwordResultView.resultMessage.text = @"OK!";
+                    self.passwordResultView.resultIcon.image = [UIImage imageNamed:@"ResultOK"];
+                    [UIView animateWithDuration:0.3 animations:^{self.passwordResultView.alpha = 1.0;}];
+                }];
+                break;
+            }
+            case TRZValidLenghtResultOver: {
+                [UIView animateWithDuration:0.1 animations:^{ self.passwordResultView.alpha = 0.0;} completion:^(BOOL finished){
+                    self.passwordResultView.resultMessage.text = [NSString stringWithFormat:@"max %ld charactors.", (long)TRZPasswordLengthMax];
+                    self.passwordResultView.resultIcon.image = [UIImage imageNamed:@"ResultWarning"];
+                    [UIView animateWithDuration:0.3 animations:^{self.passwordResultView.alpha = 1.0;}];
+                }];
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+    }];
+    
+    RACSignal *validPasswordsEqual = [RACSignal
+                                     combineLatest:@[self.passwordField.rac_textSignal,
+                                                     self.passwordConfirmField.rac_textSignal]
+                                     reduce:^(NSString *password, NSString *passwordConfirm) {
+                                         NSLog(@"password signal: %@, vpasswordConfirm signal: %@", password, passwordConfirm);
+                                         return @([password isEqualToString:passwordConfirm]);
+                                     }];
+    
+    RACSignal *validPasswordConfirm = [RACSignal combineLatest:@[validPasswordLength, validPasswordsEqual]
+                                                        reduce:^(NSNumber *validPasswordLength, NSNumber *validPasswordsEqual) {
+                                                            NSLog(@"validPasswordLength signal: %@, validPasswordsEqual signal: %@", validPasswordLength, validPasswordsEqual);
+                                                            if ([validPasswordLength intValue] == TRZValidLenghtResultValid) {
+                                                                if ([validPasswordsEqual intValue]) {
+                                                                    return @(TRZValidConfirmResultValid);
+                                                                } else {
+                                                                    return @(TRZValidFormatResultInvalid);
+                                                                }
+                                                            }
+                                                            return @(TRZValidConfirmResultNone);
+                                                        }];
+   
+    [[validPasswordConfirm distinctUntilChanged] subscribeNext:^(NSNumber *validConfirmResult) {
+        NSInteger result = [validConfirmResult intValue];
+        NSLog(@"validPasswordConfirm: %ld", (long)result);
+        switch (result) {
+            case TRZValidConfirmResultNone: {
+                break;
+            }
+            case TRZValidConfirmResultInvalid: {
+                [UIView animateWithDuration:0.1 animations:^{ self.passwordResultView.alpha = 0.0;} completion:^(BOOL finished){
+                    self.passwordResultView.resultMessage.text = @"Input same string.";
+                    self.passwordResultView.resultIcon.image = [UIImage imageNamed:@"ResultWarning"];
+                    [UIView animateWithDuration:0.3 animations:^{self.passwordResultView.alpha = 1.0;}];
+                }];
+                break;
+            }
+            case TRZValidConfirmResultValid: {
+                [UIView animateWithDuration:0.1 animations:^{self.passwordResultView.alpha = 0.0;} completion:^(BOOL finished){
+                    self.passwordResultView.resultMessage.text = @"OK!";
+                    self.passwordResultView.resultIcon.image = [UIImage imageNamed:@"ResultOK"];
+                    [UIView animateWithDuration:0.3 animations:^{self.passwordResultView.alpha = 1.0;}];
                 }];
                 break;
             }
