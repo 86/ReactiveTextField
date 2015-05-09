@@ -198,7 +198,9 @@ typedef NS_ENUM(NSInteger, TRZValidPasswordResult) {
                                           return [password isEqualToString:passwordConfirm] ? @(TRZValidPasswordResultValid) : @(TRZValidPasswordResultNotSame);
                                       }];
     
-    [[[validPasswordLength merge:validPasswordsEqual] distinctUntilChanged] subscribeNext:^(NSNumber *validPasswordResult) {
+    RACSignal *validPasswordConfirm = [validPasswordLength merge:validPasswordsEqual];
+    
+    [[validPasswordConfirm distinctUntilChanged] subscribeNext:^(NSNumber *validPasswordResult) {
         NSLog(@"validPassword signal: %@", validPasswordResult);
         NSInteger result = [validPasswordResult intValue];
         switch (result) {
@@ -246,6 +248,25 @@ typedef NS_ENUM(NSInteger, TRZValidPasswordResult) {
                 break;
             }
         }
+    }];
+    
+    // Done button enable condition
+    RAC(self.doneButton,enabled) = [RACSignal
+                                    combineLatest:@[validUserNameLength, validEmailFormat, validPasswordConfirm]
+                                    reduce:^(NSNumber *validUserName, NSNumber *validEmail, NSNumber *validPassword) {
+                                        NSLog(@"%@, %@, %@", validUserName, validEmail, validPassword);
+                                        return @([validUserName intValue] == TRZValidLenghtResultValid
+                                        && [validEmail intValue] == TRZValidFormatResultValid
+                                        && [validPassword intValue] == TRZValidPasswordResultValid);
+                                  }];
+    
+    // Done button pressed
+    RACSignal *doneButtonPressed = [self.doneButton rac_signalForControlEvents:UIControlEventTouchUpInside];
+    [doneButtonPressed subscribeNext:^(id sender) {
+        NSLog(@"button was pressed!");
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"Nice!" preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+        [self presentViewController:alert animated:YES completion:nil];
     }];
 }
 
