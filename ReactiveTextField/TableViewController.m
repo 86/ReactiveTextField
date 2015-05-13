@@ -14,7 +14,9 @@ static const NSInteger TRZUserNameLengthMin = 3;
 static const NSInteger TRZUserNameLengthMax = 8;
 static const NSInteger TRZPasswordLengthMin = 6;
 static const NSInteger TRZPasswordLengthMax = 10;
-static const NSString *TRZEmailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
+static NSString * const TRZEmailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
+static NSString * const TRZImageNameResultOK = @"ResultOK";
+static NSString * const TRZImageNameResultWarning = @"ResultWarning";
 
 typedef NS_ENUM(NSInteger, TRZValidLenghtResult) {
     TRZValidLenghtResultNone,
@@ -37,6 +39,8 @@ typedef NS_ENUM(NSInteger, TRZValidPasswordResult) {
     TRZValidPasswordResultNotSame,
 };
 
+typedef void (^ValidatingStatusTransistion)(TRZValidationResultView *view, NSString *imageName, NSString *msg);
+
 @interface TableViewController () <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *userNameField;
@@ -56,7 +60,8 @@ typedef NS_ENUM(NSInteger, TRZValidPasswordResult) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+   
+    // set delefate
     self.userNameField.delegate = self;
     self.passwordField.delegate = self;
     self.passwordConfirmField.delegate = self;
@@ -66,6 +71,23 @@ typedef NS_ENUM(NSInteger, TRZValidPasswordResult) {
     self.userNameResultView = [[TRZValidationResultView alloc] init];
     self.emailResultView = [[TRZValidationResultView alloc] init];
     self.passwordResultView = [[TRZValidationResultView alloc] init];
+    
+    // validattion result switch animation
+    ValidatingStatusTransistion validationResultfadeOut = ^(TRZValidationResultView *resultView, NSString *imageName, NSString *msg) {
+        resultView.resultIcon.image = nil;
+        resultView.resultMessage.text = @"";
+        [UIView animateWithDuration:0.3 animations:^{
+            resultView.alpha = 0.0;
+        }];
+     };
+    
+    ValidatingStatusTransistion validationResultfadeIn = ^(TRZValidationResultView *resultView, NSString *imageName, NSString *msg) {
+        [UIView animateWithDuration:0.1 animations:^{resultView.alpha = 0.0;} completion:^(BOOL finished){
+            resultView.resultIcon.image = [UIImage imageNamed:imageName];
+            resultView.resultMessage.text = msg;
+            [UIView animateWithDuration:0.3 animations:^{resultView.alpha = 1.0;}];
+        }];
+    };
     
     // User name validation
     RACSignal *validUserNameLength = [self.userNameField.rac_textSignal
@@ -84,39 +106,20 @@ typedef NS_ENUM(NSInteger, TRZValidPasswordResult) {
     [[validUserNameLength distinctUntilChanged] subscribeNext:^(NSNumber *validLengthResult) {
         NSLog(@"validUserNameLength signal: %@", validLengthResult);
         NSInteger result = [validLengthResult intValue];
+        TRZValidationResultView *resultView = self.userNameResultView;
         switch (result) {
-            case TRZValidLenghtResultNone: {
-                [UIView animateWithDuration:0.3 animations:^{
-                    self.userNameResultView.alpha = 0.0;
-                    self.userNameResultView.resultMessage.text = @"";
-                    self.userNameResultView.resultIcon.image = nil;
-                }];
+            case TRZValidLenghtResultNone:
+                validationResultfadeOut(resultView, nil, nil);
                 break;
-            }
-            case TRZValidLenghtResultShort: {
-                [UIView animateWithDuration:0.1 animations:^{self.userNameResultView.alpha = 0.0;} completion:^(BOOL finished){
-                    self.userNameResultView.resultMessage.text = [NSString stringWithFormat:@"at least %ld charactors.", (long)TRZUserNameLengthMin];
-                    self.userNameResultView.resultIcon.image = [UIImage imageNamed:@"ResultWarning"];
-                    [UIView animateWithDuration:0.3 animations:^{self.userNameResultView.alpha = 1.0;}];
-                }];
+            case TRZValidLenghtResultShort:
+                validationResultfadeIn(resultView, TRZImageNameResultWarning, [NSString stringWithFormat:@"at least %ld charactors.", (long)TRZUserNameLengthMin]);
                 break;
-            }
-            case TRZValidLenghtResultValid: {
-                [UIView animateWithDuration:0.1 animations:^{self.userNameResultView.alpha = 0.0;} completion:^(BOOL finished){
-                    self.userNameResultView.resultMessage.text = @"OK!";
-                    self.userNameResultView.resultIcon.image = [UIImage imageNamed:@"ResultOK"];
-                    [UIView animateWithDuration:0.3 animations:^{self.userNameResultView.alpha = 1.0;}];
-                }];
+            case TRZValidLenghtResultValid:
+                validationResultfadeIn(resultView, TRZImageNameResultOK, @"OK!");
                 break;
-            }
-            case TRZValidLenghtResultOver: {
-                [UIView animateWithDuration:0.1 animations:^{ self.userNameResultView.alpha = 0.0;} completion:^(BOOL finished){
-                    self.userNameResultView.resultMessage.text = [NSString stringWithFormat:@"max %ld charactors.", (long)TRZUserNameLengthMax];;
-                    self.userNameResultView.resultIcon.image = [UIImage imageNamed:@"ResultWarning"];
-                    [UIView animateWithDuration:0.3 animations:^{self.userNameResultView.alpha = 1.0;}];
-                }];
+            case TRZValidLenghtResultOver:
+                validationResultfadeIn(resultView, TRZImageNameResultWarning, [NSString stringWithFormat:@"max %ld charactors.", (long)TRZUserNameLengthMax]);
                 break;
-            }
             default: {
                 break;
             }
@@ -139,31 +142,17 @@ typedef NS_ENUM(NSInteger, TRZValidPasswordResult) {
     [[validEmailFormat distinctUntilChanged] subscribeNext:^(NSNumber *validFormatResult) {
         NSLog(@"validEmailFormat signal: %@", validFormatResult);
         NSInteger result = [validFormatResult intValue];
+        TRZValidationResultView *resultView = self.emailResultView;
         switch (result) {
-            case TRZValidFormatResultNone: {
-                [UIView animateWithDuration:0.3 animations:^{
-                    self.emailResultView.alpha = 0.0;
-                    self.emailResultView.resultMessage.text = @"";
-                    self.emailResultView.resultIcon.image = nil;
-                }];
+            case TRZValidFormatResultNone:
+                validationResultfadeOut(resultView, nil, nil);
                 break;
-            }
-            case TRZValidFormatResultInvalid: {
-                [UIView animateWithDuration:0.1 animations:^{self.emailResultView.alpha = 0.0;} completion:^(BOOL finished){
-                    self.emailResultView.resultMessage.text = @"input valid email address.";
-                    self.emailResultView.resultIcon.image = [UIImage imageNamed:@"ResultWarning"];
-                    [UIView animateWithDuration:0.3 animations:^{self.emailResultView.alpha = 1.0;}];
-                }];
+            case TRZValidFormatResultInvalid:
+                validationResultfadeIn(resultView, TRZImageNameResultWarning, @"input valid email address.");
                 break;
-            }
-            case TRZValidFormatResultValid: {
-                [UIView animateWithDuration:0.1 animations:^{self.emailResultView.alpha = 0.0;} completion:^(BOOL finished){
-                    self.emailResultView.resultMessage.text = @"OK!";
-                    self.emailResultView.resultIcon.image = [UIImage imageNamed:@"ResultOK"];
-                    [UIView animateWithDuration:0.3 animations:^{self.emailResultView.alpha = 1.0;}];
-                }];
+            case TRZValidFormatResultValid:
+                validationResultfadeIn(resultView, TRZImageNameResultOK, @"OK!!");
                 break;
-            }
             default:
                 break;
         }
@@ -203,47 +192,23 @@ typedef NS_ENUM(NSInteger, TRZValidPasswordResult) {
     [[validPasswordConfirm distinctUntilChanged] subscribeNext:^(NSNumber *validPasswordResult) {
         NSLog(@"validPassword signal: %@", validPasswordResult);
         NSInteger result = [validPasswordResult intValue];
+        TRZValidationResultView *resultView = self.passwordResultView;
         switch (result) {
-            case TRZValidPasswordResultNone: {
-                [UIView animateWithDuration:0.3 animations:^{
-                    self.passwordResultView.alpha = 0.0;
-                    self.passwordResultView.resultMessage.text = @"";
-                    self.passwordResultView.resultIcon.image = nil;
-                }];
+            case TRZValidPasswordResultNone:
+                validationResultfadeOut(resultView, nil, nil);
                 break;
-            }
-            case TRZValidPasswordResultShort: {
-                [UIView animateWithDuration:0.1 animations:^{self.passwordResultView.alpha = 0.0;} completion:^(BOOL finished){
-                    self.passwordResultView.resultMessage.text = [NSString stringWithFormat:@"at least %ld charactors.", (long)TRZPasswordLengthMin];
-                    self.passwordResultView.resultIcon.image = [UIImage imageNamed:@"ResultWarning"];
-                    [UIView animateWithDuration:0.3 animations:^{self.passwordResultView.alpha = 1.0;}];
-                }];
+            case TRZValidPasswordResultShort:
+                validationResultfadeIn(resultView, TRZImageNameResultWarning, [NSString stringWithFormat:@"at least %ld charactors.", (long)TRZPasswordLengthMin]);
                 break;
-            }
-            case TRZValidPasswordResultNotSame: {
-                [UIView animateWithDuration:0.1 animations:^{self.passwordResultView.alpha = 0.0;} completion:^(BOOL finished){
-                    self.passwordResultView.resultMessage.text = @"Input same string for comfirm field.";
-                    self.passwordResultView.resultIcon.image = [UIImage imageNamed:@"ResultWarning"];
-                    [UIView animateWithDuration:0.3 animations:^{self.passwordResultView.alpha = 1.0;}];
-                }];
+            case TRZValidPasswordResultNotSame:
+                validationResultfadeIn(resultView, TRZImageNameResultWarning, @"Input same string for comfirm field.");
                 break;
-            }
-            case TRZValidPasswordResultValid: {
-                [UIView animateWithDuration:0.1 animations:^{self.passwordResultView.alpha = 0.0;} completion:^(BOOL finished){
-                    self.passwordResultView.resultMessage.text = @"OK!";
-                    self.passwordResultView.resultIcon.image = [UIImage imageNamed:@"ResultOK"];
-                    [UIView animateWithDuration:0.3 animations:^{self.passwordResultView.alpha = 1.0;}];
-                }];
+            case TRZValidPasswordResultValid:
+                validationResultfadeIn(resultView, TRZImageNameResultOK, @"OK!!!");
                 break;
-            }
-            case TRZValidPasswordResultOver: {
-                [UIView animateWithDuration:0.1 animations:^{ self.passwordResultView.alpha = 0.0;} completion:^(BOOL finished){
-                    self.passwordResultView.resultMessage.text = [NSString stringWithFormat:@"max %ld charactors.", (long)TRZPasswordLengthMax];
-                    self.passwordResultView.resultIcon.image = [UIImage imageNamed:@"ResultWarning"];
-                    [UIView animateWithDuration:0.3 animations:^{self.passwordResultView.alpha = 1.0;}];
-                }];
+            case TRZValidPasswordResultOver:
+                validationResultfadeIn(resultView, TRZImageNameResultWarning, [NSString stringWithFormat:@"max %ld charactors.", (long)TRZPasswordLengthMax]);
                 break;
-            }
             default: {
                 break;
             }
