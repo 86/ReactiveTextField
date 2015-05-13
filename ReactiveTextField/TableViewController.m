@@ -39,7 +39,7 @@ typedef NS_ENUM(NSInteger, TRZValidPasswordResult) {
     TRZValidPasswordResultNotSame,
 };
 
-typedef void (^ValidatingStatusTransistion)(TRZValidationResultView *view, NSString *imageName, NSString *msg);
+typedef void (^TRZValidatingStatusTransistion)(TRZValidationResultView *view, NSString *imageName, NSString *msg);
 
 @interface TableViewController () <UITextFieldDelegate>
 
@@ -73,7 +73,7 @@ typedef void (^ValidatingStatusTransistion)(TRZValidationResultView *view, NSStr
     self.passwordResultView = [[TRZValidationResultView alloc] init];
     
     // validattion result switch animation
-    ValidatingStatusTransistion validationResultfadeOut = ^(TRZValidationResultView *resultView, NSString *imageName, NSString *msg) {
+    TRZValidatingStatusTransistion validationResultfadeOut = ^(TRZValidationResultView *resultView, NSString *imageName, NSString *msg) {
         resultView.resultIcon.image = nil;
         resultView.resultMessage.text = @"";
         [UIView animateWithDuration:0.3 animations:^{
@@ -81,7 +81,7 @@ typedef void (^ValidatingStatusTransistion)(TRZValidationResultView *view, NSStr
         }];
      };
     
-    ValidatingStatusTransistion validationResultfadeIn = ^(TRZValidationResultView *resultView, NSString *imageName, NSString *msg) {
+    TRZValidatingStatusTransistion validationResultfadeIn = ^(TRZValidationResultView *resultView, NSString *imageName, NSString *msg) {
         [UIView animateWithDuration:0.1 animations:^{resultView.alpha = 0.0;} completion:^(BOOL finished){
             resultView.resultIcon.image = [UIImage imageNamed:imageName];
             resultView.resultMessage.text = msg;
